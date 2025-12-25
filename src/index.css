@@ -1,0 +1,300 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600&display=swap');
+
+
+@layer base {
+  :root {
+    /* Core Colors - Dark Spotify/Instagram inspired */
+    --background: 0 0% 4%;
+    --background-elevated: 0 0% 8%;
+    --background-card: 0 0% 12%;
+
+    --foreground: 0 0% 98%;
+    --foreground-muted: 0 0% 65%;
+
+    /* Primary - Vibrant Green (Spotify-inspired) */
+    --primary: 141 76% 48%;
+    --primary-glow: 141 76% 58%;
+    --primary-foreground: 0 0% 4%;
+
+    /* Secondary - Soft Purple */
+    --secondary: 270 60% 50%;
+    --secondary-glow: 270 60% 60%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Accent - Instagram gradient colors */
+    --accent-pink: 330 85% 60%;
+    --accent-orange: 25 95% 55%;
+    --accent-purple: 280 75% 55%;
+    --accent-blue: 210 85% 55%;
+
+    /* UI Colors */
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 55%;
+
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 15%;
+    --ring: 141 76% 48%;
+
+    --radius: 1rem;
+
+    /* Watch-specific colors */
+    --clock-face: 0 0% 6%;
+    --clock-rim: 0 0% 20%;
+    --clock-tick: 0 0% 40%;
+    --clock-hand-hour: 0 0% 85%;
+    --clock-hand-minute: 0 0% 95%;
+    --clock-hand-second: 0 72% 51%;
+    --clock-center: 141 76% 48%;
+
+    /* Luxury gold accent */
+    --gold: 45 90% 55%;
+    --gold-glow: 45 90% 65%;
+
+    /* Glass effect */
+    --glass-bg: 0 0% 100% / 0.05;
+    --glass-border: 0 0% 100% / 0.1;
+    --glass-blur: 20px;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    --gradient-instagram: linear-gradient(45deg, hsl(var(--accent-orange)), hsl(var(--accent-pink)), hsl(var(--accent-purple)));
+    --gradient-gold: linear-gradient(135deg, hsl(var(--gold)), hsl(45, 80%, 45%));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background-elevated)), hsl(var(--background)));
+
+    /* Shadows */
+    --shadow-glow: 0 0 60px hsl(var(--primary) / 0.3);
+    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.4);
+    --shadow-clock: 0 25px 80px hsl(0 0% 0% / 0.6), inset 0 -2px 6px hsl(0 0% 100% / 0.05);
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 141 76% 48%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 141 76% 48%;
+  }
+}
+
+@layer base {}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  } */
+
+  body {
+    font-family: 'Helvetica Neue', sans-serif;
+    /* Apple-inspired font */
+  }
+
+  .font-mono {
+    font-family: 'Orbitron', monospace;
+    /* Cyberpunk neon font */
+  }
+}
+
+@layer components {
+
+  /* Glass morphism */
+  .glass {
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid hsl(var(--glass-border));
+  }
+
+  .glass-strong {
+    background: hsl(0 0% 100% / 0.08);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid hsl(0 0% 100% / 0.15);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: var(--gradient-instagram);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.4);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 40px hsl(var(--gold) / 0.4);
+  }
+
+  /* Clock specific */
+  .clock-shadow {
+    box-shadow: var(--shadow-clock);
+  }
+
+  .clock-glow {
+    box-shadow: 0 0 100px hsl(var(--primary) / 0.2), inset 0 0 60px hsl(0 0% 0% / 0.5);
+  }
+
+  /* Smooth animations */
+  .animate-smooth-rotate {
+    animation: smoothRotate 60s linear infinite;
+  }
+
+  /* Navigation pill */
+  .nav-pill {
+    @apply relative px-4 py-2 rounded-full transition-all duration-300;
+  }
+
+  .nav-pill.active {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .nav-pill.active::before {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: var(--gradient-primary);
+    opacity: 0.15;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+/* Custom keyframes */
+@keyframes smoothRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Second hand smooth animation */
+.second-hand-smooth {
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ambient mode dimming */
+.ambient-mode {
+  filter: brightness(0.3) saturate(0.8);
+  transition: filter 0.5s ease;
+}
+
+.ambient-mode:hover,
+.ambient-mode:focus-within {
+  filter: brightness(1) saturate(1);
+}
