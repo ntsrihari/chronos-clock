@@ -1,19 +1,19 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Navigation } from "@/components/layout/Navigation";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { usePreferences } from "@/hooks/usePreferences";
+import { cn } from "@/lib/utils";
+import { AuthPage } from "@/pages/AuthPage";
 import { ClockPage } from "@/pages/ClockPage";
+import { SettingsPage } from "@/pages/SettingsPage";
 import { StopwatchPage } from "@/pages/StopwatchPage";
 import { TimerPage } from "@/pages/TimerPage";
 import { WorldClockPage } from "@/pages/WorldClockPage";
-import { SettingsPage } from "@/pages/SettingsPage";
-import { AuthPage } from "@/pages/AuthPage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import NotFound from "./pages/NotFound";
-import { usePreferences } from "@/hooks/usePreferences";
-import { cn } from "@/lib/utils";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +30,12 @@ function AppContent() {
   } = usePreferences();
 
   return (
-    <div className={cn('min-h-screen bg-background', preferences.ambientMode && 'ambient-mode')}>
+    <div
+      className={cn(
+        "min-h-screen bg-background",
+        preferences.ambientMode && "ambient-mode"
+      )}
+    >
       <Header
         ambientMode={preferences.ambientMode}
         soundEnabled={preferences.soundEnabled}
@@ -90,9 +95,9 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <HashRouter>
         <AppContent />
-      </BrowserRouter>
+      </HashRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
