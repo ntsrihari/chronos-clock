@@ -1,4 +1,6 @@
-export type WatchFaceType = 'luxury' | 'minimal' | 'digital' | 'sporty' | 'neon';
+export type WatchFaceType = string; // Now dynamic from DB
+
+export type FontType = string; // Now dynamic from DB
 
 export interface WatchFaceConfig {
   id: WatchFaceType;
@@ -19,8 +21,9 @@ export interface UserPreferences {
   is24Hour: boolean;
   showSeconds: boolean;
   soundEnabled: boolean;
-  ambientMode: boolean;
+  darkMode: boolean;
   savedTimezones: string[];
+  fontFamily: FontType;
 }
 
 export interface StopwatchState {

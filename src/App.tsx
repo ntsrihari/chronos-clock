@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { usePreferences } from "@/hooks/usePreferences";
+import { useAppSettings } from "@/hooks/useAppSettings";
 import { cn } from "@/lib/utils";
 import { AuthPage } from "@/pages/AuthPage";
 import { ClockPage } from "@/pages/ClockPage";
@@ -21,28 +22,37 @@ function AppContent() {
   const {
     preferences,
     setDefaultFace,
+    setFontFamily,
     toggle24Hour,
     toggleSeconds,
     toggleSound,
-    toggleAmbientMode,
+    toggleDarkMode,
     addTimezone,
     removeTimezone,
   } = usePreferences();
+
+  const { settings } = useAppSettings();
+
+  // Get current font family from settings
+  const currentFont = settings.fonts.find(
+    (f) => f.key === preferences.fontFamily
+  );
+  const fontFamily = currentFont?.family || "Orbitron, monospace";
 
   return (
     <div
       className={cn(
         "min-h-screen bg-background",
-        preferences.ambientMode && "ambient-mode"
+        preferences.darkMode && "dark"
       )}
+      style={{ fontFamily }}
     >
       <Header
-        ambientMode={preferences.ambientMode}
+        ambientMode={preferences.darkMode}
         soundEnabled={preferences.soundEnabled}
-        onToggleAmbient={toggleAmbientMode}
+        onToggleAmbient={toggleDarkMode}
         onToggleSound={toggleSound}
       />
-
       <main className="relative">
         <Routes>
           <Route
@@ -75,8 +85,9 @@ function AppContent() {
                 onToggle24Hour={toggle24Hour}
                 onToggleSeconds={toggleSeconds}
                 onToggleSound={toggleSound}
-                onToggleAmbient={toggleAmbientMode}
+                onToggleDarkMode={toggleDarkMode}
                 onSetDefaultFace={setDefaultFace}
+                onSetFontFamily={setFontFamily}
               />
             }
           />
@@ -84,7 +95,6 @@ function AppContent() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-
       <Navigation />
     </div>
   );

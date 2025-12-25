@@ -1,34 +1,32 @@
-import { motion } from 'framer-motion';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { UserPreferences, WatchFaceType } from '@/types/clock';
-import { Clock, Volume2, Moon, Timer } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { UserPreferences } from "@/types/clock";
+import { Clock, Volume2, Moon, Timer, Type } from "lucide-react";
+import { useAppSettings } from "@/hooks/useAppSettings";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface SettingsPageProps {
   preferences: UserPreferences;
   onToggle24Hour: () => void;
   onToggleSeconds: () => void;
   onToggleSound: () => void;
-  onToggleAmbient: () => void;
-  onSetDefaultFace: (face: WatchFaceType) => void;
+  onToggleDarkMode: () => void;
+  onSetDefaultFace: (face: string) => void;
+  onSetFontFamily: (font: string) => void;
 }
-
-const faceOptions: { id: WatchFaceType; name: string }[] = [
-  { id: 'luxury', name: 'Luxury' },
-  { id: 'minimal', name: 'Minimal' },
-  { id: 'digital', name: 'Digital' },
-  { id: 'sporty', name: 'Sport' },
-  { id: 'neon', name: 'Neon' },
-];
 
 export function SettingsPage({
   preferences,
   onToggle24Hour,
   onToggleSeconds,
   onToggleSound,
-  onToggleAmbient,
+  onToggleDarkMode,
   onSetDefaultFace,
+  onSetFontFamily,
 }: SettingsPageProps) {
+  const { settings, loading } = useAppSettings();
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -38,7 +36,7 @@ export function SettingsPage({
       <motion.h1
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-2xl font-semibold text-foreground mb-6 text-center"
+        className="text-2xl font-semibold text-foreground mb-6 text-center text-glow"
       >
         Settings
       </motion.h1>
@@ -92,13 +90,13 @@ export function SettingsPage({
           </div>
 
           <div className="flex items-center justify-between">
-            <Label htmlFor="ambient" className="text-foreground-muted">
-              Ambient Mode
+            <Label htmlFor="darkmode" className="text-foreground-muted">
+              Dark Mode
             </Label>
             <Switch
-              id="ambient"
-              checked={preferences.ambientMode}
-              onCheckedChange={onToggleAmbient}
+              id="darkmode"
+              checked={preferences.darkMode}
+              onCheckedChange={onToggleDarkMode}
             />
           </div>
 
@@ -114,6 +112,44 @@ export function SettingsPage({
           </div>
         </motion.div>
 
+        {/* Font Selection */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18 }}
+          className="glass-strong rounded-2xl p-6 space-y-4"
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <Type className="w-5 h-5 text-primary" />
+            <h2 className="font-medium text-foreground">Font Style</h2>
+          </div>
+
+          {loading ? (
+            <div className="grid grid-cols-2 gap-2">
+              {[...Array(6)].map((_, i) => (
+                <Skeleton key={i} className="h-12 rounded-lg" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-2">
+              {settings.fonts.map((font) => (
+                <button
+                  key={font.key}
+                  onClick={() => onSetFontFamily(font.key)}
+                  style={{ fontFamily: font.family }}
+                  className={`py-3 px-3 rounded-lg text-sm font-medium transition-all ${
+                    preferences.fontFamily === font.key
+                      ? "bg-primary text-primary-foreground text-glow-subtle"
+                      : "bg-muted text-foreground-muted hover:bg-muted/80"
+                  }`}
+                >
+                  {font.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </motion.div>
+
         {/* Default Face */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -126,21 +162,29 @@ export function SettingsPage({
             <h2 className="font-medium text-foreground">Default Watch Face</h2>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
-            {faceOptions.map((face) => (
-              <button
-                key={face.id}
-                onClick={() => onSetDefaultFace(face.id)}
-                className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${
-                  preferences.defaultFace === face.id
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted text-foreground-muted hover:bg-muted/80'
-                }`}
-              >
-                {face.name}
-              </button>
-            ))}
-          </div>
+          {loading ? (
+            <div className="grid grid-cols-3 gap-2">
+              {[...Array(5)].map((_, i) => (
+                <Skeleton key={i} className="h-10 rounded-lg" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-2">
+              {settings.watchFaces.map((face) => (
+                <button
+                  key={face.key}
+                  onClick={() => onSetDefaultFace(face.key)}
+                  className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${
+                    preferences.defaultFace === face.key
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-foreground-muted hover:bg-muted/80"
+                  }`}
+                >
+                  {face.label}
+                </button>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* App Info */}
@@ -150,7 +194,7 @@ export function SettingsPage({
           transition={{ delay: 0.25 }}
           className="text-center pt-4"
         >
-          <p className="text-sm text-foreground-muted">
+          <p className="text-sm text-foreground-muted text-glow-subtle">
             Chronos v1.0.0
           </p>
           <p className="text-xs text-foreground-muted mt-1">
